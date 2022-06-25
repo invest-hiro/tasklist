@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Message;
+import models.Tasklist;
 import utils.DBUtil;
-import validators.MessageValidators;
+import validators.TasklistValidators;
 
 
 /**
@@ -41,7 +41,7 @@ public class UpdateServlet extends HttpServlet {
 
             // セッションスコープからメッセージのIDを取得して
             // 該当のIDのメッセージ1件のみをデータベースから取得
-            Message m = em.find(Message.class, (Integer)(request.getSession().getAttribute("message_id")));
+            Tasklist m = em.find(Tasklist.class, (Integer)(request.getSession().getAttribute("tasklist_id")));
 
             // フォームの内容を各フィールドに上書き
 
@@ -52,16 +52,16 @@ public class UpdateServlet extends HttpServlet {
             m.setUpdated_at(currentTime);       // 更新日時のみ上書き
 
             // バリデーションを実行してエラーがあったら編集画面のフォームに戻る
-            List<String> errors = MessageValidators.validate(m);
+            List<String> errors = TasklistValidators.validate(m);
             if(errors.size() > 0) {
                 em.close();
 
                 // フォームに初期値を設定、さらにエラーメッセージを送る
                 request.setAttribute("_token", request.getSession().getId());
-                request.setAttribute("message", m);
+                request.setAttribute("tasklist", m);
                 request.setAttribute("errors", errors);
 
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/edit.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasklist/edit.jsp");
                 rd.forward(request, response);
             } else {
                 // データベースを更新
@@ -71,7 +71,7 @@ public class UpdateServlet extends HttpServlet {
                 em.close();
 
                 // セッションスコープ上の不要になったデータを削除
-                request.getSession().removeAttribute("message_id");
+                request.getSession().removeAttribute("tasklist_id");
 
                 // indexページへリダイレクト
                 response.sendRedirect(request.getContextPath() + "/index");

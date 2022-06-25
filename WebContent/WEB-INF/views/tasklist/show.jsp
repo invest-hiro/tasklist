@@ -4,22 +4,22 @@
 <c:import url="../layout/app.jsp">
     <c:param name="content">
         <c:choose>
-            <c:when test="${message != null}">
-                <h2>id : ${message.id} のメッセージ詳細ページ</h2>
+            <c:when test="${tasklist != null}">
+                <h2>id : ${tasklist.id} の内容詳細ページ</h2>
 
                 <table>
                     <tbody>
                         <tr>
-                            <th>メッセージ</th>
-                            <td><c:out value="${message.content}" /></td>
+                            <th>内容</th>
+                            <td><c:out value="${tasklist.content}" /></td>
                         </tr>
                         <tr>
                             <th>作成日時</th>
-                            <td><fmt:formatDate value="${message.created_at}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                            <td><fmt:formatDate value="${tasklist.created_at}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                         </tr>
                         <tr>
                             <th>更新日時</th>
-                            <td><fmt:formatDate value="${message.updated_at}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                            <td><fmt:formatDate value="${tasklist.updated_at}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                         </tr>
                     </tbody>
                 </table>
